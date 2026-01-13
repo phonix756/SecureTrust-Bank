@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WestFargo Bank - Secure Online Banking</title>
+    <style>
+        :root {
+            --primary-blue: #00467f;
+            --secondary-blue: #0066b3;
+            --light-blue: #e6f2ff;
+            --accent-gold: #d4af37;
+            --dark-gray: #333333;
+            --medium-gray: #666666;
+            --light-gray: #f5f5f5;
+            --white: #ffffff;
+            --error-red: #d32f2f;
+            --success-green: #388e3c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-top {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 8px 0;
+            font-size: 0.9rem;
+        }
+        
+        .header-top .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-bottom {
+            padding: 15px 0;
+        }
+        
+        .header-bottom .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            color: var(--primary-blue);
+            margin-left: 10px;
+        }
+        
+        .logo-icon {
+            font-size: 2rem;
+            color: var(--accent-gold);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 25px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark-gray);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary-blue);
+        }
+        
+        /* Main Content Styles */
+        main {
+            padding: 30px 0;
+            min-height: calc(100vh - 200px);
+        }
+        
+        .page {
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        /* Login Page Styles */
+        .login-container {
+            max-width: 450px;
+            margin: 50px auto;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .login-header h2 {
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus {
+            border-color: var(--primary-blue);
+            outline: none;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-blue);
+            color: var(--white);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary-blue);
+        }
+        
+        .btn-secondary {
+            background-color: var(--medium-gray);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--dark-gray);
+        }
+        
+        /* Dashboard Styles */
+        .dashboard-header {
+            margin-bottom: 30px;
+        }
+        
+        .dashboard-header h2 {
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+        }
+        
+        .welcome-message {
+            color: var(--medium-gray);
+        }
+        
+        .balance-card {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: var(--white);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .balance-label {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+        
+        .balance-amount {
+            font-size: 2.5rem;
+            font-weight: 600;
+        }
+        
+        .account-number {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .action-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .action-icon {
+            font-size: 2rem;
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+        }
+        
+        .action-card h3 {
+            margin-bottom: 10px;
+            color: var(--primary-blue);
+        }
+        
+        .transactions-section {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .section-header h3 {
+            color: var(--primary-blue);
+        }
+        
+        .transaction-list {
+            list-style: none;
+        }
+        
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+        
+        .transaction-details h4 {
+            margin-bottom: 5px;
+        }
+        
+        .transaction-date {
+            color: var(--medium-gray);
+            font-size: 0.9rem;
+        }
+        
+        .transaction-amount {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .positive {
+            color: var(--success-green);
+        }
+        
+        .negative {
+            color: var(--error-red);
+        }
+        
+        /* Transfer Page Styles */
+        .transfer-form {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .transfer-form h2 {
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .security-note {
+            background-color: var(--light-blue);
+            border-left: 4px solid var(--primary-blue);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        /* Debit Card Page Styles */
+        .debit-card-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .card-container {
+            perspective: 1000px;
+            height: 250px;
+        }
+        
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+        }
+        
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card-front {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .card-back {
+            background: linear-gradient(135deg, var(--secondary-blue), var(--primary-blue));
+            color: var(--white);
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+        
+        .card-logo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-chip {
+            width: 50px;
+            height: 40px;
+            background-color: var(--accent-gold);
+            border-radius: 5px;
+        }
+        
+        .card-number {
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .card-details {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .card-holder, .card-expiry {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-label {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+        
+        .card-stripe {
+            height: 40px;
+            background-color: var(--dark-gray);
+            margin-bottom: 20px;
+        }
+        
+        .card-cvv {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        
+        .cvv-box {
+            width: 60px;
+            height: 30px;
+            background-color: var(--white);
+            color: var(--dark-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        
+        .card-controls {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .card-info {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .card-info h3 {
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+        }
+        
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .info-item:last-child {
+            border-bottom: none;
+        }
+        
+        /* Footer Styles */
+        footer {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 30px 0;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul li a {
+            color: var(--light-blue);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-section ul li a:hover {
+            color: var(--white);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: var(--light-blue);
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .modal-header h3 {
+            color: var(--primary-blue);
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--medium-gray);
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .debit-card-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            nav ul {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <div class="container">
+                <div class="contact-info">
+                    <span>Customer Service: 1-800-WESTFARGO</span>
+                </div>
+                <div class="security-info">
+                    <span>Secure Banking | FDIC Insured</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-bottom">
+            <div class="container">
+                <div class="logo">
+                    <div class="logo-icon">$</div>
+                    <h1>WestFargo Bank</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="nav-link" data-page="dashboard">Dashboard</a></li>
+                        <li><a href="#" class="nav-link" data-page="transfer">Transfer Money</a></li>
+                        <li><a href="#" class="nav-link" data-page="debit-card">Debit Card</a></li>
+                        <li><a href="#" id="logout-btn">Logout</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <!-- Login Page -->
+            <div id="login-page" class="page active">
+                <div class="login-container">
+                    <div class="login-header">
+                        <h2>WestFargo Bank Online</h2>
+                        <p>Secure Login to Your Account</p>
+                    </div>
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" name="username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" required>
+                        </div>
+                        <button type="submit" class="btn">Login to Your Account</button>
+                    </form>
+                    <div style="margin-top: 20px; text-align: center;">
+                        <a href="#" style="color: var(--primary-blue); text-decoration: none;">Forgot Username/Password?</a>
+                    </div>
+                    <div class="security-note" style="margin-top: 25px;">
+                        <p><strong>Security Notice:</strong> We will never ask for your password or transfer key via email or phone.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Page -->
+            <div id="dashboard-page" class="page">
+                <div class="dashboard-header">
+                    <h2>Account Overview</h2>
+                    <p class="welcome-message">Welcome back, Beatrice Horan</p>
+                </div>
+                
+                <div class="balance-card">
+                    <div class="balance-label">Available Balance</div>
+                    <div class="balance-amount">$400,000.00</div>
+                    <div class="account-number">Account: •••• 4582</div>
+                </div>
+                
+                <div class="quick-actions">
+                    <div class="action-card" data-page="transfer">
+                        <div class="action-icon">⇄</div>
+                        <h3>Transfer Money</h3>
+                        <p>Send money to other accounts</p>
+                    </div>
+                    <div class="action-card">
+                        <div class="action-icon">+</div>
+                        <h3>Pay Bills</h3>
+                        <p>Pay your bills online</p>
+                    </div>
+                    <div class="action-card" data-page="debit-card">
+                        <div class="action-icon">💳</div>
+                        <h3>Debit Card</h3>
+                        <p>Manage your card</p>
+                    </div>
+                    <div class="action-card">
+                        <div class="action-icon">⚙️</div>
+                        <h3>Services</h3>
+                        <p>Account services</p>
+                    </div>
+                </div>
+                
+                <div class="transactions-section">
+                    <div class="section-header">
+                        <h3>Recent Transactions</h3>
+                        <a href="#" style="color: var(--primary-blue); text-decoration: none;">View All</a>
+                    </div>
+                    <ul class="transaction-list">
+                        <li class="transaction-item">
+                            <div class="transaction-details">
+                                <h4>Direct Deposit - Salary</h4>
+                                <div class="transaction-date">July 1, 2025</div>
+                            </div>
+                            <div class="transaction-amount positive">+$12,500.00</div>
+                        </li>
+                        <li class="transaction-item">
+                            <div class="transaction-details">
+                                <h4>Online Purchase - Amazon</h4>
+                                <div class="transaction-date">June 28, 2025</div>
+                            </div>
+                            <div class="transaction-amount negative">-$247.85</div>
+                        </li>
+                        <li class="transaction-item">
+                            <div class="transaction-details">
+                                <h4>ATM Withdrawal</h4>
+                                <div class="transaction-date">June 25, 2025</div>
+                            </div>
+                            <div class="transaction-amount negative">-$300.00</div>
+                        </li>
+                        <li class="transaction-item">
+                            <div class="transaction-details">
+                                <h4>Transfer to Savings</h4>
+                                <div class="transaction-date">June 20, 2025</div>
+                            </div>
+                            <div class="transaction-amount negative">-$1,000.00</div>
+                        </li>
+                        <li class="transaction-item">
+                            <div class="transaction-details">
+                                <h4>Interest Earned</h4>
+                                <div class="transaction-date">June 15, 2025</div>
+                            </div>
+                            <div class="transaction-amount positive">+$42.18</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Transfer Money Page -->
+            <div id="transfer-page" class="page">
+                <div class="dashboard-header">
+                    <h2>Transfer Money</h2>
+                    <p class="welcome-message">Send money to other accounts</p>
+                </div>
+                
+                <div class="transfer-form">
+                    <h2>External Transfer</h2>
+                    <form id="transfer-form">
+                        <div class="form-group">
+                            <label for="from-account">From Account</label>
+                            <select id="from-account" class="form-control" required>
+                                <option value="">Select Account</option>
+                                <option value="checking">Checking •••• 4582 ($400,000.00)</option>
+                                <option value="savings">Savings •••• 7821 ($15,250.00)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="to-bank">To Bank</label>
+                            <input type="text" id="to-bank" name="to-bank" placeholder="Bank Name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="to-account">To Account Number</label>
+                            <input type="text" id="to-account" name="to-account" placeholder="Account Number" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="routing-number">Routing Number</label>
+                            <input type="text" id="routing-number" name="routing-number" placeholder="Routing Number" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="account-type">Account Type</label>
+                            <select id="account-type" class="form-control" required>
+                                <option value="">Select Account Type</option>
+                                <option value="checking">Checking</option>
+                                <option value="savings">Savings</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="amount">Amount</label>
+                                <input type="number" id="amount" name="amount" placeholder="0.00" min="0.01" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="date">Transfer Date</label>
+                                <input type="date" id="date" name="date" required>
+                            </div>
+                        </div>
+                        
+                        <div class="security-note">
+                            <p><strong>Security Verification:</strong> For your protection, a transfer key is required to complete this transaction.</p>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="transfer-key">Transfer Key</label>
+                            <input type="password" id="transfer-key" name="transfer-key" placeholder="Enter your transfer key" required>
+                            <small style="color: var(--medium-gray);">Your transfer key is a 6-digit number provided by the bank.</small>
+                        </div>
+                        
+                        <button type="submit" class="btn">Initiate Transfer</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Debit Card Page -->
+            <div id="debit-card-page" class="page">
+                <div class="dashboard-header">
+                    <h2>Debit Card Management</h2>
+                    <p class="welcome-message">Manage your WestFargo Bank Debit Card</p>
+                </div>
+                
+                <div class="debit-card-section">
+                    <div>
+                        <div class="card-container">
+                            <div class="card" id="debit-card">
+                                <div class="card-front">
+                                    <div class="card-logo">
+                                        <div class="logo-icon">$</div>
+                                        <div>WestFargo Bank</div>
+                                    </div>
+                                    <div class="card-chip"></div>
+                                    <div class="card-number">•••• •••• •••• 4582</div>
+                                    <div class="card-details">
+                                        <div class="card-holder">
+                                            <div class="card-label">Card Holder</div>
+                                            <div>BEATRICE HORAN</div>
+                                        </div>
+                                        <div class="card-expiry">
+                                            <div class="card-label">Expires</div>
+                                            <div>08/30</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-back">
+                                    <div class="card-stripe"></div>
+                                    <div class="card-cvv">
+                                        <div class="card-label">CVV</div>
+                                        <div class="cvv-box">•••</div>
+                                    </div>
+                                    <div class="card-logo" style="justify-content: center; margin-top: 20px;">
+                                        <div>WestFargo Bank</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-controls">
+                            <button class="btn btn-secondary" id="flip-card">Show Back of Card</button>
+                        </div>
+                    </div>
+                    
+                    <div class="card-info">
+                        <h3>Card Details</h3>
+                        <div class="info-item">
+                            <span>Card Number</span>
+                            <span>•••• •••• •••• 4582</span>
+                        </div>
+                        <div class="info-item">
+                            <span>Expiration Date</span>
+                            <span>08/2030</span>
+                        </div>
+                        <div class="info-item">
+                            <span>CVV Code</span>
+                            <span>•••</span>
+                        </div>
+                        <div class="info-item">
+                            <span>Card Status</span>
+                            <span style="color: var(--success-green);">Active</span>
+                        </div>
+                        <div class="info-item">
+                            <span>Daily Purchase Limit</span>
+                            <span>$5,000.00</span>
+                        </div>
+                        <div class="info-item">
+                            <span>Daily ATM Limit</span>
+                            <span>$1,000.00</span>
+                        </div>
+                        
+                        <div style="margin-top: 25px;">
+                            <button class="btn" style="margin-bottom: 10px;">Report Card Lost/Stolen</button>
+                            <button class="btn btn-secondary">Manage Card Limits</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Transfer Confirmation Modal -->
+    <div class="modal" id="transfer-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Transfer Confirmation</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Your transfer has been successfully initiated.</p>
+                <div class="security-note" style="margin: 20px 0;">
+                    <p><strong>Transfer Details:</strong></p>
+                    <p>Amount: <span id="confirm-amount">$0.00</span></p>
+                    <p>To: <span id="confirm-bank">Bank Name</span></p>
+                    <p>Account: <span id="confirm-account">••••••••</span></p>
+                    <p>Estimated Delivery: <span id="confirm-date">MM/DD/YYYY</span></p>
+                </div>
+                <p>A confirmation email has been sent to your registered email address.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="confirm-ok">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>WestFargo Bank</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Investor Relations</a></li>
+                        <li><a href="#">Newsroom</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Customer Service</h3>
+                    <ul>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Branch & ATM Locator</a></li>
+                        <li><a href="#">Schedule an Appointment</a></li>
+                        <li><a href="#">Help & Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Security & Privacy</h3>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Security Center</a></li>
+                        <li><a href="#">Report Fraud</a></li>
+                        <li><a href="#">Terms of Use</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 WestFargo Bank. Member FDIC. All rights reserved.</p>
+                <p>WestFargo Bank, N.A. is a registered service mark of WestFargo Bank Corporation.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Page Navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navigation
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pages = document.querySelectorAll('.page');
+            const actionCards = document.querySelectorAll('.action-card');
+            
+            function showPage(pageId) {
+                pages.forEach(page => {
+                    page.classList.remove('active');
+                });
+                document.getElementById(pageId).classList.add('active');
+            }
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const pageId = this.getAttribute('data-page') + '-page';
+                    showPage(pageId);
+                });
+            });
+            
+            actionCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    if (this.getAttribute('data-page')) {
+                        const pageId = this.getAttribute('data-page') + '-page';
+                        showPage(pageId);
+                    }
+                });
+            });
+            
+            // Login Form
+            const loginForm = document.getElementById('login-form');
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                showPage('dashboard-page');
+            });
+            
+            // Logout
+            document.getElementById('logout-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                showPage('login-page');
+            });
+            
+            // Transfer Form
+            const transferForm = document.getElementById('transfer-form');
+            const transferModal = document.getElementById('transfer-modal');
+            const closeModal = document.querySelector('.close-modal');
+            const confirmOk = document.getElementById('confirm-ok');
+            
+            transferForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Check transfer key (for demo, any 6-digit number works)
+                const transferKey = document.getElementById('transfer-key').value;
+                if (transferKey.length !== 6 || isNaN(transferKey)) {
+                    alert('Please enter a valid 6-digit transfer key.');
+                    return;
+                }
+                
+                // Populate confirmation modal
+                document.getElementById('confirm-amount').textContent = '$' + 
+                    parseFloat(document.getElementById('amount').value).toFixed(2);
+                document.getElementById('confirm-bank').textContent = 
+                    document.getElementById('to-bank').value;
+                document.getElementById('confirm-account').textContent = 
+                    '••••' + document.getElementById('to-account').value.slice(-4);
+                document.getElementById('confirm-date').textContent = 
+                    document.getElementById('date').value;
+                
+                // Show modal
+                transferModal.classList.add('active');
+            });
+            
+            closeModal.addEventListener('click', function() {
+                transferModal.classList.remove('active');
+            });
+            
+            confirmOk.addEventListener('click', function() {
+                transferModal.classList.remove('active');
+                transferForm.reset();
+                showPage('dashboard-page');
+            });
+            
+            // Debit Card Flip
+            const debitCard = document.getElementById('debit-card');
+            const flipCardBtn = document.getElementById('flip-card');
+            
+            flipCardBtn.addEventListener('click', function() {
+                debitCard.classList.toggle('flipped');
+                if (debitCard.classList.contains('flipped')) {
+                    flipCardBtn.textContent = 'Show Front of Card';
+                } else {
+                    flipCardBtn.textContent = 'Show Back of Card';
+                }
+            });
+            
+            // Set default date for transfer to today
+            const today = new Date();
+            const formattedDate = today.toISOString().split('T')[0];
+            document.getElementById('date').value = formattedDate;
+        });
+    </script>
+</body>
+</html>
